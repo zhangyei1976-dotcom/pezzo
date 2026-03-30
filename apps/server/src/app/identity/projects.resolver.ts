@@ -84,18 +84,15 @@ export class ProjectsResolver {
   ) {
     const { organizationId, name } = data;
 
-    isOrgMemberOrThrow(user, data.organizationId);
+    isOrgMemberOrThrow(user, organizationId);
 
     this.logger.assign({ organizationId, name }).info("Creating project");
 
-    const slug = slugify(data.name);
+    const slug = slugify(name);
     let exists: Project;
 
     try {
-      exists = await this.projectsService.getProjectBySlug(
-        slug,
-        data.organizationId
-      );
+      exists = await this.projectsService.getProjectBySlug(slug, organizationId);
     } catch (error) {
       this.logger.error({ error }, "Error checking for existing project");
       throw new InternalServerErrorException();
@@ -107,9 +104,9 @@ export class ProjectsResolver {
 
     try {
       const project = await this.projectsService.createProject(
-        data.name,
+        name,
         slug,
-        data.organizationId
+        organizationId
       );
 
       this.analytics.trackEvent("project_created", {

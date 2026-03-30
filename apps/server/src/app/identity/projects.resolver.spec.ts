@@ -34,10 +34,10 @@ describe("ProjectsResolver - createProject authorization", () => {
 
   const user = {
     userId: "user-1",
-    organizations: [
+    orgMemberships: [
       {
-        id: "org-1",
-        role: "MEMBER",
+        organizationId: "org-1",
+        role: "Member",
       },
     ],
   } as unknown as RequestUser;

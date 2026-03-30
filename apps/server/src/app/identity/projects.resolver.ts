@@ -84,6 +84,8 @@ export class ProjectsResolver {
   ) {
     const { organizationId, name } = data;
 
+    isOrgMemberOrThrow(user, data.organizationId);
+
     this.logger.assign({ organizationId, name }).info("Creating project");
 
     const slug = slugify(data.name);

@@ -78,7 +78,10 @@ export class ProjectsResolver {
   }
 
   @Mutation(() => Project)
-  async createProject(@Args("data") data: CreateProjectInput) {
+  async createProject(
+    @CurrentUser() user: RequestUser,
+    @Args("data") data: CreateProjectInput
+  ) {
     const { organizationId, name } = data;
 
     this.logger.assign({ organizationId, name }).info("Creating project");
